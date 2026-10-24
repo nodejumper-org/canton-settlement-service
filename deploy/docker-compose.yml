@@ -1,0 +1,24 @@
+# Runs the service from its published image, with the state on a volume.
+# Configuration comes from deploy/.env (see .env.example).
+services:
+  settlement:
+    image: ghcr.io/nodejumper-org/canton-settlement-service:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${SETTLEMENT_PORT:-8080}:8080"
+    volumes:
+      - settlement-data:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  settlement-data:

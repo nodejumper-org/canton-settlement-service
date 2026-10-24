@@ -1,0 +1,37 @@
+[package]
+name         = "canton-settlement-service"
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.88"
+license      = "Apache-2.0"
+description  = "A delivery-versus-payment settlement service for the Canton Network, built on the Canton Rust SDK and the CIP-0112 token standard."
+repository   = "https://github.com/nodejumper-org/canton-settlement-service"
+publish      = false
+
+[dependencies]
+canton             = { version = "0.3.2", default-features = false }
+axum               = { version = "0.8", default-features = false, features = ["http1", "json", "query", "tokio"] }
+futures-util       = { version = "0.3" }
+metrics            = { version = "0.24" }
+metrics-exporter-prometheus = { version = "0.18", default-features = false }
+humantime          = { version = "2" }
+rusqlite           = { version = "0.40", features = ["bundled"] }
+serde              = { version = "1", features = ["derive"] }
+serde_json         = { version = "1" }
+thiserror          = { version = "2" }
+tokio              = { version = "1", features = ["macros", "rt-multi-thread", "signal", "sync", "time"] }
+tracing            = { version = "0.1" }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "json"] }
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+module_name_repetitions = "allow"
